@@ -1,0 +1,18 @@
+- name: Deploys an application
+  hosts: testserver
+  remote_user: panfilo
+  tasks:
+    - name: install java
+      sudo: yes
+      yum:
+          pkg=java-1.8.0-openjdk.x86_64
+          state=present
+    - name: copy the jar file to the destination
+      sudo: yes
+      copy: src=/home/manuelinuts/hellojar2exe/helloworld.jar dest=/home/panfilo/helloworld.jar owner=root
+    - name: Copy init script
+      sudo: yes
+      copy: src=/home/manuelinuts/hellojar2exe/hello.sh dest=/etc/init.d/hello.sh owner=root group=root mode=0755  
+    - name: Starts Application
+      sudo: yes
+      shell: /etc/init.d/hello.sh
